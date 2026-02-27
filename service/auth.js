@@ -10,8 +10,9 @@ function setUser(user) {
     return jwt.sign(payload, KEY)
 }
 
-function getUser(id) {
-    return sessionId(id)
+function getUser(token) {
+    if(!token) return null
+    return jwt.verify(token, KEY)
 }
 
 module.exports = {
