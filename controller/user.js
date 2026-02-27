@@ -1,4 +1,5 @@
 const user = require('../model/userSchema')
+const auth = require('../service/auth')
 
 function showSignup(req, res) {
     return res.render('signup', { error: null })
@@ -16,6 +17,8 @@ async function handleLogin(req, res) {
         return res.render('login', {error : "Invalid email or password"})
     }
 
+    const token = auth.setUser(fuser)
+    res.cookie('uid', token)
     return res.render('index', {error : null})
 }
 
