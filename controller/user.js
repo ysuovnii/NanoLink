@@ -17,20 +17,23 @@ async function handleLogin(req, res) {
         return res.render('login', {error : "Invalid email or password"})
     }
 
-    const token = auth.setUser(fuser)
+    const token = auth.setUser({_id: fuser._id, email: fuser.email, name: fuser.name})
     res.cookie('uid', token)
-    return res.render('index', {error : null})
+    const urls = await require('../model/urlSchema').find({userID: fuser._id}).sort({_id: -1})
+    return res.render('index', {error: null, urls: urls, user: fuser})
 }
 
 async function handleSignup(req, res) {
 
     const {name, email, password} = req.body
 
-    await user.create({
+    const newUser = await user.create({
         name, email, password
     })
 
-    return res.render('index', {error : null})
+    const token = auth.setUser({_id: newUser._id, email: newUser.email, name: newUser.name})
+    res.cookie('uid', token)
+    return res.render('index', {error : null, urls: [], user: newUser})
 }
 
 module.exports = {showSignup, showLogin, handleSignup, handleLogin}
