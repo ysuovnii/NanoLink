@@ -30,6 +30,11 @@ server.use(express.static(path.join(__dirname, 'public')));
 server.set('view engine', 'ejs');
 server.set('vihttps://github.com/ysuovnii/URL-Shortenerews', path.join(__dirname, 'views'));
 
+server.get('/logout', (req, res) => {
+    res.clearCookie('uid');
+    res.redirect('/user/login');
+});
+
 server.get('/', checkAuth, async (req, res) => {
     try {
         const allUrls = await URL.find({ userID: req.user._id }).sort({ _id: -1 });
@@ -52,10 +57,7 @@ const userRoute = require('./routes/userRoute')
 
 server.use('/user', userRoute)
 
-server.get('/logout', (req, res) => {
-    res.clearCookie('uid');
-    res.redirect('/user/login');
-});
+
 
 //entry 
 server.listen(PORT, () => {
