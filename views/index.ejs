@@ -12,6 +12,12 @@
         <header>
             <h1><i class="fas fa-link"></i> URL Shortener</h1>
             <p>Transform long URLs into short, shareable links instantly</p>
+            <% if (user) { %>
+                <div class="user-info">
+                    <span>Welcome, <%= user.name %>!</span>
+                    <a href="/logout" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Log out</a>
+                </div>
+            <% } %>
         </header>
 
         <main>
@@ -33,11 +39,65 @@
                     </button>
                 </div>
             </form>
+
+            <% if (urls && urls.length > 0) { %>
+                <div class="urls-container">
+                    <h2><i class="fas fa-list"></i> Your Shortened URLs</h2>
+                    <div class="urls-list">
+                        <% urls.forEach(url => { %>
+                            <div class="url-bubble">
+                                <div class="url-info">
+                                    <div class="url-item">
+                                        <span class="url-label">Short ID:</span>
+                                        <a href="/<%= url.shortID %>" target="_blank" class="url-link shortened">
+                                            <%= url.shortID %>
+                                        </a>
+                                    </div>
+                                    <div class="url-item">
+                                        <span class="url-label">Original:</span>
+                                        <a href="<%= url.redirectURL %>" target="_blank" class="url-link original">
+                                            <%= url.redirectURL.length > 50 ? url.redirectURL.substring(0, 50) + '...' : url.redirectURL %>
+                                        </a>
+                                    </div>
+                                    <div class="url-visits">
+                                        <i class="fas fa-eye"></i> <%= url.visits %> visits
+                                    </div>
+                                </div>
+                                <button class="copy-btn" onclick="copyToClipboard('/<%= url.shortID %>')">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                        <% }); %>
+                    </div>
+                </div>
+            <% } %>
         </main>
 
         <footer>
             <p>Fast, secure, and reliable URL shortening service</p>
         </footer>
     </div>
+
+    <script>
+        function copyToClipboard(text) {
+            const fullUrl = window.location.origin + text;
+            navigator.clipboard.writeText(fullUrl).then(() => {
+                showNotification('Copied to clipboard!', 'success');
+            }).catch(err => {
+                showNotification('Failed to copy', 'error');
+            });
+        }
+
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `<i class="fas fa-${type === 'success' ? 'check' : 'exclamation'}-circle"></i> ${message}`;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+    </script>
 </body>
 </html>

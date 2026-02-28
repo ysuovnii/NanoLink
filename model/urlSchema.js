@@ -12,6 +12,12 @@ const urlSchema = new mongoose.Schema({
         required : true, 
     }, 
 
+    userID : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'user', 
+        required : true,
+    },
+
     visits : {
         type : Number,
         default : 0,
