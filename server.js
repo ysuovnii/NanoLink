@@ -22,7 +22,7 @@ dbConnection.connectDB(MONGO_URL)
 //SSR
 server.use(express.static(path.join(__dirname, 'public')));
 server.set('view engine', 'ejs');
-server.set('vihttps://github.com/ysuovnii/URL-Shortenerews', path.join(__dirname, 'views'));
+server.set('views', path.join(__dirname, 'views'));
 
 server.get('/', (req, res) => res.render('index', { error: null }));
 
