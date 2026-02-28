@@ -2,7 +2,7 @@ const path = require('path')
 
 //express
 const express = require('express')
-const server = express() 
+const server = express()
 
 //env variables
 require('dotenv').config()
@@ -11,9 +11,9 @@ const MONGO_URL = process.env.MONGO_URL
 
 //parsing
 const cookieParser = require('cookie-parser')
-server.use(express.json());        
+server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
-server.use(cookieParser()); 
+server.use(cookieParser());
 
 //db
 const dbConnection = require('./controller/connection')
@@ -32,7 +32,7 @@ server.set('vihttps://github.com/ysuovnii/URL-Shortenerews', path.join(__dirname
 
 server.get('/', checkAuth, async (req, res) => {
     try {
-        const allUrls = await URL.find({userID: req.user._id}).sort({ _id: -1 });
+        const allUrls = await URL.find({ userID: req.user._id }).sort({ _id: -1 });
         res.render('index', { error: null, urls: allUrls, user: req.user });
     } catch (err) {
         console.error("Error fetching URLs:", err);
@@ -46,16 +46,16 @@ const urlRoute = require('./routes/urlRoute')
 const redirect = require('./controller/Redirect');
 
 server.use('/url', checkAuth, urlRoute)
-server.get('/:id', redirect.redirectURL) 
+server.get('/:id', redirect.redirectURL)
 
 const userRoute = require('./routes/userRoute')
 
 server.use('/user', userRoute)
 
 server.get('/logout', (req, res) => {
-    res.clearCookie('uid')
-    res.redirect('/user/login')
-})
+    res.clearCookie('uid');
+    res.redirect('/user/login');
+});
 
 //entry 
 server.listen(PORT, () => {

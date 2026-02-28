@@ -28,12 +28,13 @@ header {
     text-align: center;
     margin-bottom: 40px;
     color: white;
+    position: relative;
 }
 
 header h1 {
     font-size: 2.5rem;
     margin-bottom: 10px;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 header h1 i {
@@ -67,6 +68,9 @@ header p {
     border-radius: 6px;
     transition: all 0.2s ease;
     font-weight: 500;
+    position: absolute;
+    top: 10px;
+    right: 10px;
 }
 
 .logout-btn:hover {
@@ -90,7 +94,7 @@ main {
     border-radius: 8px;
     margin-bottom: 30px;
     font-weight: 500;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     max-width: 500px;
     width: 100%;
     border: 1px solid #202225;
@@ -112,7 +116,7 @@ main {
     background: #2f3136;
     padding: 40px;
     border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     max-width: 500px;
     width: 100%;
     margin-bottom: 30px;
@@ -217,7 +221,7 @@ input[type="url"]::placeholder {
     background: #2f3136;
     padding: 30px;
     border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     max-width: 600px;
     width: 100%;
     margin-bottom: 30px;
@@ -228,7 +232,8 @@ input[type="url"]::placeholder {
     margin-bottom: 20px;
 }
 
-.original-url, .short-url {
+.original-url,
+.short-url {
     display: flex;
     align-items: center;
     margin-bottom: 15px;
@@ -298,7 +303,7 @@ footer {
     right: 20px;
     padding: 12px 16px;
     border-radius: 6px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     z-index: 1000;
     display: flex;
     align-items: center;
@@ -327,6 +332,7 @@ footer {
         transform: translateX(100%);
         opacity: 0;
     }
+
     to {
         transform: translateX(0);
         opacity: 1;
@@ -364,7 +370,8 @@ footer {
         padding: 20px;
     }
 
-    .original-url, .short-url {
+    .original-url,
+    .short-url {
         flex-direction: column;
         align-items: flex-start;
         padding: 12px;
