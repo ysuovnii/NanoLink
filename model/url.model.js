@@ -22,7 +22,7 @@ const urlSchema = new mongoose.Schema({
         type : Number,
         default : 0,
     }
-})
+}, {timestamps : true});
 
 const URL = mongoose.model('url', urlSchema)
 
