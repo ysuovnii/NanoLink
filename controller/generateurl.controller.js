@@ -2,7 +2,7 @@ const urlSchema = require('../model/url.model');
 const validator = require('validator');
 const { nanoid } = require('nanoid');
 
-const BASE_URL = process.env.BASE_URL || "http://localhost:3000";
+const BASE_URL = process.env.BASE_URL;
 
 async function generateURL(req, res) {
     try {
@@ -11,7 +11,7 @@ async function generateURL(req, res) {
 
         if (!url) {
             const allUrls = await urlSchema.find({userID: userID}).sort({ _id: -1 });
-            return res.render('index', { error: "URL is required", urls: allUrls, user: req.user });
+            return res.render('index', { error : "URL is required", urls: allUrls, user: req.user });
         } 
 
         const normalizedUrl = url.startsWith('http') ? url : `http://${url}`;
@@ -28,7 +28,7 @@ async function generateURL(req, res) {
         const shortUrl = `${BASE_URL}/${id}`; 
 
         return res.render('result', { shortUrl, originalUrl: normalizedUrl });
-    } catch (err) {
+    } catch (error) {
         console.error("Error:", err);
         const allUrls = await urlSchema.find({userID: req.user._id}).sort({ _id: -1 });
         return res.render('index', { error: "Something went wrong", urls: allUrls, user: req.user });

@@ -1,17 +1,18 @@
 const auth = require('../service/auth.service.js')
 
 function checkAuth(req, res, next) {
-    const token = req.cookies.uid
-    
-    if (!token) {
-        return res.redirect('/user/login')
-    }
-    
     try {
+        const token = req.cookies.uid
+    
+        if (!token) {
+            return res.redirect('/user/login')
+        }
+    
         const user = auth.getUser(token)
         req.user = user
         next()
-    } catch (err) {
+    } 
+    catch (error) {
         return res.redirect('/user/login')
     }
 }
