@@ -1,29 +1,24 @@
 const path = require('path')
-
-//express
 const express = require('express')
+require('dotenv').config()
+const cookieParser = require('cookie-parser')
+const {connectDB} = require('./libs/db.js')
+const URL = require('./model/url.model.js')
+const { checkAuth } = require('./middleware/auth.middleware.js')
+const urlRoute = require('./routes/url.route.js')
+const userRoute = require('./routes/user.route.js')
+const {redirectURL} = require('./controller/redirect.controller.js');
+
 const server = express()
 
 //env variables
-require('dotenv').config()
 const PORT = process.env.PORT || 3000
 const MONGO_URL = process.env.MONGO_URL
 
 //parsing
-const cookieParser = require('cookie-parser')
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 server.use(cookieParser());
-
-//db
-const dbConnection = require('./controller/connection')
-dbConnection.connectDB(MONGO_URL)
-
-//models
-const URL = require('./model/urlSchema')
-const { checkAuth } = require('./middleware/authMiddleware')
-
-//static
 
 //SSR
 server.use(express.static(path.join(__dirname, 'public')));
@@ -47,19 +42,12 @@ server.get('/', checkAuth, async (req, res) => {
 
 
 //routes
-const urlRoute = require('./routes/urlRoute')
-const redirect = require('./controller/Redirect');
-
 server.use('/url', checkAuth, urlRoute)
-server.get('/:id', redirect.redirectURL)
-
-const userRoute = require('./routes/userRoute')
-
+server.get('/:id', redirectURL)
 server.use('/user', userRoute)
-
-
 
 //entry 
 server.listen(PORT, () => {
-    console.log(`Server is starting at PORT : ${PORT}`)
+    console.log(`Server is starting at PORT : ${PORT}`);
+    connectDB(MONGO_URL);
 })
